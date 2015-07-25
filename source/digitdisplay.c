@@ -406,10 +406,10 @@ void DigitDisplay_clear()
 
 static void writeToDisplayPort( UINT8 value )
 {
-	DIGIT_SEL_A = 1;		//switch off display
-	DIGIT_SEL_B = 1;
-	DIGIT_SEL_C = 1;
-	DIGIT_SEL_D = 1;
+	DIGIT_SEL_A = 0;		//switch off display
+	DIGIT_SEL_B = 0;
+	DIGIT_SEL_C = 0;
+	DIGIT_SEL_D = 0;
 
 
 	Delay10us(5);
@@ -417,20 +417,20 @@ static void writeToDisplayPort( UINT8 value )
 	switch( digitDisplay.digitIndex )
 	{
 		case 0:
-			DIGIT_SEL_A = 0;
+			DIGIT_SEL_A = 1;
 			
 		break;
 		case 1:
-   			DIGIT_SEL_B = 0;
+   			DIGIT_SEL_B = 1;
 
 		break;
 		case 2:
-   			DIGIT_SEL_C = 0;
+   			DIGIT_SEL_C = 1;
 
    		break;
 
 		case 3:
-   			DIGIT_SEL_D = 0;
+   			DIGIT_SEL_D = 1;
 		
    		break;
 
@@ -452,7 +452,7 @@ static void writeToDisplayPort( UINT8 value )
 	DIGIT_SEL_D = 0;
 
 	Delay10us(1);
-	DISPLAY_PORT = value;
+	DISPLAY_PORT = ~value;
 	switch( digitDisplay.digitIndex )
 	{
 		case 0:

@@ -15,7 +15,7 @@
 
 
 //TIMER Configuration
-#define TIMESTAMP_DURATION 		(200)
+#define TIMESTAMP_DURATION 		(925)
 
 
 
@@ -42,8 +42,8 @@ enum
 /*------------------------------------
  *	Display Configuration
  *-----------------------------------*/
-#define __DISPLAY_TEST__
-//#define COMMON_CATHODE
+//#define __DISPLAY_TEST__
+#define COMMON_CATHODE
 
 
 

@@ -24,8 +24,6 @@
 #include "timer.h"
 #include "heartbeat.h"
 #include "app.h"
-#include "rtc_driver.h"
-#include "i2c_driver.h"
 #include "digitdisplay.h"
 #include "linearkeypad.h"
 #include "uart.h"
@@ -146,7 +144,7 @@ UINT8 message[]="IDEONICS";
 *
 *------------------------------------------------------------------------------
 */
-#define DIGIT_REFRESH_PERIOD	(65535 - 8000)
+#define DIGIT_REFRESH_PERIOD	(65535 - 2000)
 
 
 extern UINT16 heartBeatCount;
@@ -158,7 +156,6 @@ void main(void)
 	UINT8 blink = 0;
 
 	BRD_init();			//board initialization
-	InitializeRtc();	//RTC Initialization
 	LinearKeyPad_init();
 
 	DigitDisplay_init(NO_OF_DIGITS); //Digit Display initialization
@@ -178,20 +175,20 @@ void main(void)
 	{
 
 
-	`	if(heartBeatCount >= 500 )
+	`	if(heartBeatCount >= 1500 )
 		{	
 
 			HB_task();
 			heartBeatCount = 0;
 		}
 
-		if(keypadUpdate_count >= 10)
+		if(keypadUpdate_count >= 100)
 		{
 			LinearKeyPad_scan();
 			keypadUpdate_count = 0;
 		}
 		
-		if(appUpdateCount >= 250)
+		if(appUpdateCount >= 750)
 		{
 			APP_task();	
 			appUpdateCount = 0;

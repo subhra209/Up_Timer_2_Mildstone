@@ -31,6 +31,8 @@ typedef struct _Key
 {
 	KEY_STATE state;
 	UINT8 debounceCount;
+	UINT8 PBState;
+	
 }Key;
 
 
@@ -177,7 +179,7 @@ void LinearKeyPad_scan(  )
 	UINT8 i = 0;
 
 
-#ifdef __SIMULATION__
+#ifdef __INPUT_SIMULATION__
 	getSimulatedInput();
 #else
 	readKeyPadPort();
@@ -214,6 +216,15 @@ void LinearKeyPad_scan(  )
 UINT8 LinearKeyPad_getKeyState( UINT8 index )
 {
 	return keys[index].state;
+	
+}
+
+
+UINT8 LinearKeyPad_getPBState( UINT8 index )
+{
+	UINT8 state = keys[index].PBState;
+	keys[index].PBState = PB_RELEASED;
+	return state;
 	
 }
 
@@ -255,23 +266,18 @@ void LinearKeyPad_reset(  )
 * Private Functions
 *------------------------------------------------------------------------------
 */
-#ifdef __SIMULATION__
+#ifdef __INPUT_SIMULATION__
  
 
 static UINT8 portIndex = 0;
 	
 void getSimulatedInput()
 {
-/*	if( portIndex %3 == 0 )
-	{
-		portIndex++;
-		return;
-	}
-*/
-	if(portValue[portIndex] == 0)
-		portValue[portIndex] = 1;
-	else if( portValue[portIndex] == 1 )
-		portValue[portIndex ]= 0;
+
+	if(portValue[portIndex] == PIN_OPEN)
+		portValue[portIndex] = PIN_CLOSED;
+	else if( portValue[portIndex] == PIN_CLOSED )
+		portValue[portIndex ]= PIN_OPEN;
 	portIndex++;
 
 	if(portIndex > MAX_KEYS)
@@ -300,8 +306,9 @@ static void readKeyPadPort()
 	portValue[2] = KEYPAD_PORT_2;
 	portValue[3] = KEYPAD_PORT_3;
 	portValue[4] = KEYPAD_PORT_4;
-
-
+	portValue[5] = KEYPAD_PORT_5;
+	portValue[6] = KEYPAD_PORT_6;
+	portValue[7] = KEYPAD_PORT_7;
 }
 
 
@@ -325,7 +332,7 @@ static void updateKey(Key *key , UINT8 index)
 
 		
 	
-		switch( key->state) 
+		switch( key->state)
 		{
 			case KEY_RELEASED:
 				if( ( portValue[index] & 1 )  == PIN_CLOSED )
@@ -352,6 +359,7 @@ static void updateKey(Key *key , UINT8 index)
 					if((key->debounceCount) >= DEBOUNCE_COUNT ) 
 					{
 						key->state = KEY_RELEASED;
+						key->PBState = PB_PRESSED;
 						key->debounceCount = 0;
 					}
 				}

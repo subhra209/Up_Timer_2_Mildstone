@@ -61,7 +61,7 @@ enum LINEAR_KEYPAD_CONFIG
 */
 typedef enum PIN_STATE
 {
-#ifdef __SIMULATION__
+#ifdef __KEYPAD_SIMULATION__
 	PIN_CLOSED = 1,
 	PIN_OPEN = 0
 #else
@@ -79,8 +79,17 @@ typedef enum PIN_STATE
 typedef enum KEY_STATE
 {
 	KEY_RELEASED,
-	KEY_PRESSED
+	KEY_PRESSED,
+
 }KEY_STATE;
+
+
+enum
+{
+	PB_RELEASED,
+	PB_PRESSED
+};
+
 
 /*
 *------------------------------------------------------------------------------
@@ -91,10 +100,13 @@ typedef enum KEY
 {
 
 	KEY0 = 0,
-	KEY1,
-	KEY2,
-	KEY3,
-	KEY4,
+	KEY1 ,
+	KEY2 ,
+	KEY3 ,
+	KEY4 ,
+	KEY5 ,
+	KEY6 ,
+	KEY7 ,
 
 	MAX_KEYS
 }KEY;
@@ -197,6 +209,6 @@ void LinearKeyPad_reset(void);
 
 UINT8 LinearKeyPad_getKeyState( UINT8 index );
 
-
+UINT8 LinearKeyPad_getPBState( UINT8 index );
 
 #endif	//__LINEAR_KEYPAD__
