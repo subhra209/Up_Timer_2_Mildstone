@@ -36,8 +36,8 @@ typedef struct _App
 	UINT16 mildstone1Value;			// store mildstone1 value
 	UINT16 mildstone2Value;			// store mildstone2 value
 	UINT16 currentTime;
-	BOOL mildstone1Flag;
-	BOOL mildstone2Flag;
+	UINT8 mildstone1Flag;
+	UINT8 mildstone2Flag;
 
 }APP;
 
@@ -116,10 +116,8 @@ void APP_task( void )
 			case HALT_STATE:
 			
 
-			if (LinearKeyPad_getPBState(COUNT_PB) == KEY_PRESSED)// && (app.countFlag == TRUE))
+			if (LinearKeyPad_getPBState(COUNT_PB) == KEY_PRESSED)
 			{
-			//	app.countFlag = FALSE;
-	
 				APP_resetDisplayBuffer();
 				DigitDisplay_updateBufferPartial(app.displayBuffer , 0, 4);
 				ResetAppTime();
@@ -129,7 +127,7 @@ void APP_task( void )
 			
 			}
 			
-			else if (LinearKeyPad_getPBState(MILDSTONE1_PB) == KEY_PRESSED)
+			 if (LinearKeyPad_getPBState(MILDSTONE1_PB) == KEY_PRESSED)
 			{
 				//Reset Target buffer which is used to hold preset data
 				APP_resetBuffer1();
@@ -150,7 +148,7 @@ void APP_task( void )
 			}
 
 			//Check the keypress Status of HOOTER_OFF_PB 
-			else if(LinearKeyPad_getPBState(MILDSTONE2_PB) == KEY_PRESSED)
+			 if(LinearKeyPad_getPBState(MILDSTONE2_PB) == KEY_PRESSED)
 			{
 				//Reset Target buffer which is used to hold preset data
 				APP_resetBuffer2();
@@ -227,7 +225,7 @@ void APP_task( void )
 				}
 
 				app.mildstone1Value = (UINT16)(((app.mildstone1[3]- '0' )* 10 )+ ( app.mildstone1[2] - '0') )* 60 +(((app.mildstone1[1]- '0' )* 10 )+ (app.mildstone1[0] - '0'));
-				
+				app.state = HALT_STATE;	
 				
 			}
 			if ((LinearKeyPad_getPBState(MILDSTONE2_PB) == KEY_PRESSED) && (app.mildstone2Flag == TRUE))
@@ -248,7 +246,7 @@ void APP_task( void )
 				}
 
 				app.mildstone2Value = (UINT16)(((app.mildstone2[3]- '0' )* 10 )+ ( app.mildstone2[2] - '0') )* 60 +(((app.mildstone2[1]- '0' )* 10 )+ (app.mildstone2[0] - '0'));
-
+				app.state = HALT_STATE;
 				
 			}
 
@@ -259,7 +257,7 @@ void APP_task( void )
 			case COUNT_STATE:
 
 	
-			if (LinearKeyPad_getPBState(HALT_PB) == KEY_PRESSED)
+				if (LinearKeyPad_getPBState(HALT_PB) == KEY_PRESSED)
 				{
 					GREEN_LAMP = RESET;
 					RED_LAMP = RESET;

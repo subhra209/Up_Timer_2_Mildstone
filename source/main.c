@@ -144,7 +144,7 @@ UINT8 message[]="IDEONICS";
 *
 *------------------------------------------------------------------------------
 */
-#define DIGIT_REFRESH_PERIOD	(65535 - 2000)
+#define DIGIT_REFRESH_PERIOD	(65535 - 8000)
 
 
 extern UINT16 heartBeatCount;
@@ -175,24 +175,25 @@ void main(void)
 	{
 
 
-	`	if(heartBeatCount >= 1500 )
+	`	if(heartBeatCount >= 500 )
 		{	
 
 			HB_task();
 			heartBeatCount = 0;
 		}
 
-		if(keypadUpdate_count >= 100)
+		if(keypadUpdate_count >= 10)
 		{
 			LinearKeyPad_scan();
 			keypadUpdate_count = 0;
 		}
 		
-		if(appUpdateCount >= 750)
+		if(appUpdateCount >= 250)
 		{
 			APP_task();	
 			appUpdateCount = 0;
 		}
+
 	}
 
 

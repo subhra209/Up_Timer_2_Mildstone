@@ -141,9 +141,9 @@ void TMR1_init(unsigned int reload , void (*func)())
 }
 
 
-UINT32 GetAppTime(void)
+UINT16 GetAppTime(void)
 {	
-	UINT32 temp;
+	UINT16 temp;
 
 	DISABLE_TMR0_INTERRUPT();
 	temp  = AppTimestamp;
