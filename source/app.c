@@ -118,10 +118,7 @@ void APP_task( void )
 
 			if (LinearKeyPad_getPBState(COUNT_PB) == KEY_PRESSED)
 			{
-				APP_resetDisplayBuffer();
-				DigitDisplay_updateBufferPartial(app.displayBuffer , 0, 4);
 				ResetAppTime();
-
 				app.state = COUNT_STATE;
 
 			
@@ -259,6 +256,8 @@ void APP_task( void )
 	
 				if (LinearKeyPad_getPBState(HALT_PB) == KEY_PRESSED)
 				{
+					APP_resetDisplayBuffer();
+					DigitDisplay_updateBufferPartial(app.displayBuffer , 0, 4);
 					GREEN_LAMP = RESET;
 					RED_LAMP = RESET;
 	
@@ -277,6 +276,8 @@ void APP_task( void )
 				}
 				else
 				{
+					APP_resetDisplayBuffer();
+					DigitDisplay_updateBufferPartial(app.displayBuffer , 0, 4);
 					app.state = HALT_STATE;	
 					break;					
 				}
